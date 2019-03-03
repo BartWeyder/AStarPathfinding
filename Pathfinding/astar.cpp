@@ -1,4 +1,5 @@
-#include "astar.h"
+﻿#include "astar.h"
+#include <fstream>
 
 SearchNode::SearchNode()
 {
@@ -286,6 +287,7 @@ void AStar::search(bool saveChanges)
     matrix[x][y].g = 0;
     //calculateCost(start);
 
+	// main loop
     while (matrix[end.first][end.second].type != OPENEDNODE)
     {
         minCost = numeric_limits<double>::max();
@@ -343,9 +345,15 @@ void AStar::search(bool saveChanges)
 
         if (x > 0)
         {
-            if (y > 0)			openNode(x - 1, y - 1, x, y, newMatrixState);
-                                openNode(x - 1, y    , x, y, newMatrixState);
-            if (y + 1 < height)	openNode(x - 1, y + 1, x, y, newMatrixState);
+			if (y > 0)
+			{
+				openNode(x - 1, y - 1, x, y, newMatrixState);
+			}
+			openNode(x - 1, y    , x, y, newMatrixState);
+			if (y + 1 < height)
+			{
+				openNode(x - 1, y + 1, x, y, newMatrixState);
+			}
         }
 
         if (y > 0)				openNode(x    , y - 1, x, y, newMatrixState);
@@ -378,6 +386,17 @@ void AStar::search(bool saveChanges)
         x = matrix[node.first][node.second].originX;
         y = matrix[node.first][node.second].originY;
     }
+
+	std::ofstream file("test1.csv");
+
+	for (auto i = 0; i < height; ++i)
+	{
+		for (auto j = 0; j < width; ++j)
+		{
+			file << matrix[j][i].type << ',';
+		}
+		file << std::endl;
+	}
 
     return;
 }
@@ -530,28 +549,3 @@ double AStar::estimateCost(UINT x1, UINT y1, UINT x2, UINT y2)
 
     return cost;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

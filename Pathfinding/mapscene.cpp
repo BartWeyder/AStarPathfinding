@@ -122,7 +122,7 @@ void MapScene::drawPath()
 
     if (path.size() == 0)
     {
-        messageBox.setText("Erro!");
+        messageBox.setText("Error!");
         messageBox.addButton(QMessageBox::Ok);
         messageBox.exec();
         return;
