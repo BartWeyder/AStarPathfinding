@@ -1,4 +1,5 @@
 #include "mapscene.h"
+#include <fstream>
 
 MapScene::MapScene(QObject *parent)
 {
@@ -265,6 +266,64 @@ void MapScene::setStepsDelay(unsigned long delay)
     pathStepsThread.setDelay(delay);
 }
 
+void MapScene::saveToFile(const char * path)
+{
+	std::ofstream file(path);
+	// write map size
+	file << mapWidth << ',' << mapHeight << std::endl;
+	// write start coord
+	auto point = astar.getStart();
+	file << point.first << ',' << point.second << std::endl;
+	// write end coord
+	point = astar.getEnd();
+	file << point.first << ',' << point.second << std::endl;
+	// rows 
+	for (auto i = 0; i < mapWidth; ++i)
+	{
+		for (auto j = 0; j < mapHeight; ++j)
+		{
+			file << map[i][j].type << ',' << map[i][j].expandCost << std::endl;
+		}
+	}
+}
+
+void MapScene::loadFromFile(const char * path)
+{
+	std::ifstream file(path);
+	std::string bufferString;
+	// get map size
+	std::getline(file, bufferString);
+	auto pos = bufferString.find(',');
+	mapWidth = std::stoll(bufferString.substr(0, pos));
+	mapHeight = std::stoll(bufferString.substr(pos + 1));
+	setMap(mapWidth, mapHeight);
+	//get start
+	std::getline(file, bufferString);
+	pos = bufferString.find(',');
+	auto x_start = std::stoll(bufferString.substr(0, pos));
+	auto y_start = std::stoll(bufferString.substr(pos + 1));
+	//get end
+	std::getline(file, bufferString);
+	pos = bufferString.find(',');
+	auto x_end = std::stoll(bufferString.substr(0, pos));
+	auto y_end = std::stoll(bufferString.substr(pos + 1));
+	// getting points part
+	for (auto i = 0; i < mapWidth; ++i)
+	{
+		for (auto j = 0; j < mapHeight; ++j)
+		{
+			std::getline(file, bufferString);
+			pos = bufferString.find(',');
+			loadPoint(i, j, static_cast<NodeType>(std::stoll(bufferString.substr(0, pos))), 
+				std::stoll(bufferString.substr(pos + 1)));
+		}
+	}
+	astar.setStart(x_start, y_start);
+	map[x_start][y_start].pixmapItem.setPixmap(startNodeImgPath);
+	astar.setEnd(x_end, y_end);
+	map[x_end][y_end].pixmapItem.setPixmap(endNodeImgPath);
+}
+
 void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QPointF initPos, finalPos;
@@ -352,4 +411,27 @@ void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void MapScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     if (event) showNextStep();
+}
+
+void MapScene::loadPoint(UINT i, UINT j, NodeType nodeType, UINT expandCost)
+{
+	map[i][j].type = nodeType;
+	map[i][j].expandCost = expandCost;
+	switch (nodeType)
+	{
+	case WAYNODE:
+		astar.setWay(i, j);
+		astar.setExpandCost(expandCost, i, j);
+		if (expandCost == 1)
+			map[i][j].pixmapItem.setPixmap(freeNodeImgPath);
+		else
+			map[i][j].pixmapItem.setPixmap(dirtNodeImgPath);
+		break;
+	case WALLNODE:
+		astar.setWall(i, j);
+		map[i][j].pixmapItem.setPixmap(wallNodeImgPath);
+		break;
+	default:
+		break;
+	}
 }

@@ -72,10 +72,15 @@ public:
     void setEnd(UINT x, UINT y);
     void setToSetState(ToSetState toSetState);
     void setStepsDelay(unsigned long delay);
+	void saveToFile(const char * path);
+	void loadFromFile(const char * path);
 
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void wheelEvent(QGraphicsSceneWheelEvent *event);
+
+private:
+	void loadPoint(UINT i, UINT j, NodeType nodeType, UINT expandCost);
 };
 
 #endif // MAPSCENE_H

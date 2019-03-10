@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include <QAction>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -25,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->btnShowSteps, SIGNAL(clicked()), this, SLOT(showSteps()));
     connect(ui->radioBtnEuclidean, SIGNAL(toggled(bool)), this, SLOT(toEuclidean()));
     connect(ui->radioBtnManhattan, SIGNAL(toggled(bool)), this, SLOT(toManhattan()));
+	connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(loadFile()));
+	connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveFile()));
 }
 
 MainWindow::~MainWindow()
@@ -111,3 +115,18 @@ void MainWindow::toSetEnd()
 {
     mapScene->setToSetState(TOSETEND);
 }
+
+void MainWindow::loadFile()
+{
+	QString filename = QFileDialog::getOpenFileName(this, "Choose map", QDir::currentPath(), "Map Files (*.map)");
+	if (!filename.isEmpty())
+		mapScene->loadFromFile(filename.toStdString().c_str());
+}
+
+void MainWindow::saveFile()
+{
+	QString filename = QFileDialog::getSaveFileName(this, "Save map", QDir::currentPath(), "Map Files (*.map)");
+	if (!filename.isEmpty())
+		mapScene->saveToFile(filename.toStdString().c_str());
+}
+

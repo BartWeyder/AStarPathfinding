@@ -11,11 +11,13 @@
 
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
@@ -27,6 +29,8 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionLoad;
+    QAction *actionSave;
     QWidget *centralWidget;
     QGraphicsView *viewport;
     QGroupBox *functionsGroupBox;
@@ -52,6 +56,7 @@ public:
     QPushButton *btnDirt;
     QLabel *lblDirt;
     QMenuBar *menuBar;
+    QMenu *menuFile;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -61,6 +66,10 @@ public:
         MainWindow->setMinimumSize(QSize(600, 450));
         MainWindow->setMaximumSize(QSize(600, 450));
         MainWindow->setContextMenuPolicy(Qt::NoContextMenu);
+        actionLoad = new QAction(MainWindow);
+        actionLoad->setObjectName(QString::fromUtf8("actionLoad"));
+        actionSave = new QAction(MainWindow);
+        actionSave->setObjectName(QString::fromUtf8("actionSave"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         viewport = new QGraphicsView(centralWidget);
@@ -188,8 +197,14 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 23));
+        menuBar->setGeometry(QRect(0, 0, 600, 21));
+        menuFile = new QMenu(menuBar);
+        menuFile->setObjectName(QString::fromUtf8("menuFile"));
         MainWindow->setMenuBar(menuBar);
+
+        menuBar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionLoad);
+        menuFile->addAction(actionSave);
 
         retranslateUi(MainWindow);
 
@@ -199,6 +214,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "A* Pathfinding", nullptr));
+        actionLoad->setText(QApplication::translate("MainWindow", "Load", nullptr));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
         functionsGroupBox->setTitle(QApplication::translate("MainWindow", "Functions", nullptr));
         spinMapWidth->setPrefix(QString());
         lblSize->setText(QApplication::translate("MainWindow", "Size:", nullptr));
@@ -219,6 +236,7 @@ public:
         lblWall->setText(QApplication::translate("MainWindow", "Wall:", nullptr));
         btnDirt->setText(QString());
         lblDirt->setText(QApplication::translate("MainWindow", ":Dirt", nullptr));
+        menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
     } // retranslateUi
 
 };

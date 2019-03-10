@@ -34,6 +34,8 @@ public slots:
     void toSetDirt();
     void toSetStart();
     void toSetEnd();
+	void loadFile();
+	void saveFile();
 
 private:
     Ui::MainWindow *ui;
