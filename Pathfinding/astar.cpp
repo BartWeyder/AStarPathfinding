@@ -386,19 +386,6 @@ void AStar::search(bool saveChanges)
         x = matrix[node.first][node.second].originX;
         y = matrix[node.first][node.second].originY;
     }
-
-	std::ofstream file("test1.csv");
-
-	for (auto i = 0; i < height; ++i)
-	{
-		for (auto j = 0; j < width; ++j)
-		{
-			file << matrix[j][i].type << ',';
-		}
-		file << std::endl;
-	}
-
-    return;
 }
 
 void AStar::setMatrix(UINT width, UINT height)
