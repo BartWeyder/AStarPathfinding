@@ -11,7 +11,6 @@
 #include <list>
 #include "astar.h"
 #include "fixinclude.h"
-#include "pathstepsthread.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,8 +25,6 @@ class MapScene : public QGraphicsScene
     AStar astar;
 
     MapNode **map;
-
-    PathStepsThread pathStepsThread;
 
     list<pair<UINT, UINT> > path;
     list<list<NodeState> > steps;
@@ -71,7 +68,6 @@ public:
     void setStart(UINT x, UINT y);
     void setEnd(UINT x, UINT y);
     void setToSetState(ToSetState toSetState);
-    void setStepsDelay(unsigned long delay);
 	void saveToFile(const char * path);
 	void loadFromFile(const char * path);
 

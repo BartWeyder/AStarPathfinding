@@ -17,14 +17,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->spinMapWidth, SIGNAL(valueChanged(int)), this, SLOT(prepareToBuildMap()));
     connect(ui->spinMapHeight, SIGNAL(valueChanged(int)), this, SLOT(prepareToBuildMap()));
     connect(ui->btnShowPath, SIGNAL(clicked()), this, SLOT(buildPath()));
-    connect(ui->btnShowStep, SIGNAL(clicked()), this, SLOT(showNextStep()));
     connect(ui->spinMapScale, SIGNAL(valueChanged(int)), this, SLOT(prepareToBuildMap()));
     connect(ui->btnWall, SIGNAL(clicked()), this, SLOT(toSetWall()));
     connect(ui->btnWay, SIGNAL(clicked()), this, SLOT(toSetWay()));
     connect(ui->btnDirt, SIGNAL(clicked()), this, SLOT(toSetDirt()));
     connect(ui->btnStart, SIGNAL(clicked()), this, SLOT(toSetStart()));
     connect(ui->btnEnd, SIGNAL(clicked()), this, SLOT(toSetEnd()));
-    connect(ui->btnShowSteps, SIGNAL(clicked()), this, SLOT(showSteps()));
     connect(ui->radioBtnEuclidean, SIGNAL(toggled(bool)), this, SLOT(toEuclidean()));
     connect(ui->radioBtnManhattan, SIGNAL(toggled(bool)), this, SLOT(toManhattan()));
 	connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(loadFile()));
@@ -52,16 +50,12 @@ void MainWindow::buildMap()
 
     ui->btnBuildMap->setText("Rebuild Map");
     ui->btnShowPath->setEnabled(true);
-    ui->btnShowStep->setEnabled(true);
-    //ui->btnShowSteps->setEnabled(true);
 }
 
 void MainWindow::prepareToBuildMap()
 {
     ui->btnBuildMap->setText("Build Map");
     ui->btnShowPath->setEnabled(false);
-    ui->btnShowStep->setEnabled(false);
-    //ui->btnShowSteps->setEnabled(false);
 }
 
 void MainWindow::buildPath()

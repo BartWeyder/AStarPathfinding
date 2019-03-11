@@ -59,9 +59,6 @@
     <ClCompile Include="mapscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pathstepsthread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astar.h">
@@ -76,21 +73,14 @@
     <ClInclude Include="mapscene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pathstepsthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    
-    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
-    
     <ClInclude Include="ui_mainwindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>

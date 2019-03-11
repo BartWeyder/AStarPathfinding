@@ -261,11 +261,6 @@ void MapScene::setToSetState(ToSetState toSetState)
     this->toSetState = toSetState;
 }
 
-void MapScene::setStepsDelay(unsigned long delay)
-{
-    pathStepsThread.setDelay(delay);
-}
-
 void MapScene::saveToFile(const char * path)
 {
 	std::ofstream file(path);

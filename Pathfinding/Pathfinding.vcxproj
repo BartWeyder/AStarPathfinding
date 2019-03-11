@@ -203,7 +203,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="mapscene.cpp" />
-    <ClCompile Include="pathstepsthread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astar.h" />
@@ -211,7 +210,6 @@
     <QtMoc Include="mainwindow.h">
     </QtMoc>
     <ClInclude Include="mapscene.h" />
-    <ClInclude Include="pathstepsthread.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
